@@ -1,5 +1,5 @@
 # Architectural Design Specification
-> Due: ???
+> Due: 11:59 PM, Saturday, December 04, 2021 
 
 This repository contains the `.tex` files for the Architectural Design Specifications of the Turing Board.
 
