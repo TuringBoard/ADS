@@ -1,38 +1,184 @@
-In this section, the layer is described in some detail in terms of its specific subsystems. Describe each of the layers and its subsystems in a separate chapter/major subsection of this document. The content of each subsystem description should be similar. Include in this section any special considerations and/or trade-offs considered for the approach you have chosen.
+This layer is responsible for the overall propulsion of Turing Board. An Electronic Speed Controller (ESC) will be used to regulate the speed of the motor, reverse direction of the motor and provide regenerative breaking. While in autonomous mode the long board is not capable of using weight to compress the bushing that turn the board. A mechanism is needed that will sit between the trucks and the board that will allow the wheels to rotate independently. This mechanism will be held in place by two solenoids acting as locking pins. A stepper motor using optical sensor for positioning will interact with gears on the mechanism to rotate it to the desired angle.
 
-\subsection{Subsystem 1}
-This section should be a general description of a particular subsystem for the given layer. For most subsystems, an extract of the architectural block diagram with data flows is useful. This should consist of the subsystem being described and those subsystems with which it communicates.
+
+
+
+
+
+\subsection{Electronic Speed Controller}
+The electronic speed controller is an electronics circuit that controls and regulates the speed of the motor. The ESC receives desired speed commands from the Jetson TX2 using the CAN bus. Two brush less DC motors that are embedded into the wheels of the long board provide feedback for the wheels direction to the ESC in the form of hall effect sensors. Using information from both of these systems the ESC is able to provide current to the motors in order to drive a load at a set speed.
+
 
 \begin{figure}[h!]
 	\centering
- 	\includegraphics[width=0.60\textwidth]{images/subsystem}
- \caption{Example subsystem description diagram}
+ 	\includegraphics[width=0.60\textwidth]{ADS Latex/images/ESC.png}
+ \caption{Electronic Speed Controlle}
 \end{figure}
 
 \subsubsection{Assumptions}
-Any assumptions made in the definition of the subsystem should be listed and described. Pay particular attention to assumptions concerning interfaces and interactions with other layers.
+It is assumed that this layer is only called when the board is in use. A speed command must be sent by either the user or the autonomous software.
 
 \subsubsection{Responsibilities}
-Each of the responsibilities/features/functions/services of the subsystem as identified in the architectural summary must be expanded to more detailed responsibilities. These responsibilities form the basis for the identification of the finer-grained responsibilities of the layer's internal subsystems. Clearly describe what each subsystem does.
+The ESC is responsible for driving the motor at a constant speed determined by the user. It is also responsible for reversing the direction of the motors to move the long board backwards if desired. When the break is applied the ESC uses its circuitry to redirect the rotational energy of the wheel and recharge the battery of the long board.
 
 \subsubsection{Subsystem Interfaces}
-Each of the inputs and outputs for the subsystem are defined here. Create a table with an entry for each labelled interface that connects to this subsystem. For each entry, describe any incoming and outgoing data elements will pass through this interface.
+Each of the inputs and outputs for the subsystem are defined here.
 
 \begin {table}[H]
-\caption {Subsystem interfaces} 
+\caption {Subsystem interfaces}
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & Description of the interface/bus & \pbox{3cm}{input 1 \\ input 2} & \pbox{3cm}{output 1}  \\ \hline
-    \#xx & Description of the interface/bus & \pbox{3cm}{N/A} & \pbox{3cm}{output 1}  \\ \hline
+    \#xx & CAN bus to Jetson & \pbox{3cm}{Desired Speed} & \pbox{3cm}{Motor RPM}  \\ \hline
+    \#xx & Direct Connection to Motor & \pbox{3cm}{Hall Effect Sensor} & \pbox{3cm}{Current to
+    Motor}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
 
-\subsection{Subsystem 2}
-Repeat for each subsystem
 
-\subsection{Subsystem 3}
-Repeat for each subsystem
 
+
+
+
+
+
+
+
+\subsection{Brushless DC Motor}
+There are two brush less DC motors embedded into the wheels of the long board. Each motor has three hall effect sensors that allow the speed controller to know how fast the wheels are moving.
+
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[width=0.60\textwidth]{ADS Latex/images/BLDC.png}
+ \caption{Brushless DC Motor}
+\end{figure}
+
+\subsubsection{Assumptions}
+It is assumed that the battery will have sufficient charge in order to power the motor and allow it to rotate.
+
+\subsubsection{Responsibilities}
+Rotate when current is applied to the three phases.
+
+\subsubsection{Subsystem Interfaces}
+Each of the inputs and outputs for the subsystem are defined here.
+
+\begin {table}[H]
+\caption {Subsystem interfaces}
+\begin{center}
+    \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
+    \hline
+    ID & Description & Inputs & Outputs \\ \hline
+    \#xx & Connection to Motor & \pbox{3cm}{Electrical Current} & \pbox{3cm}{Motor Position}  \\ \hline
+    \end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+
+\subsection{Micro controller}
+The micro controller will handle the majority of the lower hardware functions such as sensors, solenoids, stepper motor, and PWM control. It will interface with the Jetson TX2.
+
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[width=0.60\textwidth]{ADS Latex/images/MicroC.png}
+ \caption{Micro Controller}
+\end{figure}
+
+\subsubsection{Assumptions}
+It is assumed that the micro-controller will be receiving constant instructions from the Jetson TX2.
+
+\subsubsection{Responsibilities}
+The micro-controller is responsible for direct control of the stepper motors, solenoids, optical sensors and the corresponding data from each. It is mainly needed to ensure that the turning mechanism is working as intended and will alert the Jetson of any faults that occur.
+
+\subsubsection{Subsystem Interfaces}
+Each of the inputs and outputs for the subsystem are defined here.
+
+\begin {table}[H]
+\caption {Subsystem interfaces}
+\begin{center}
+    \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
+    \hline
+    ID & Description & Inputs & Outputs \\ \hline
+    \#xx & Connection to Jetson & \pbox{3cm}{Instructions} & \pbox{3cm}{Status Update}  \\ \hline
+    \#xx & Optical Sensor & \pbox{3cm}{Motor Position} & \pbox{3cm}{N/A}  \\ \hline
+    \#xx & Optical Sensor & \pbox{3cm}{Solenoid Position} & \pbox{3cm}{N/A}  \\ \hline
+    \end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+
+\subsection{Optical Sensors}
+Several optical sensors will be operating in the project. Stepper motors have no method for determining position, by attaching a a piece of metal to the motor we can determine the gear position when the rotating metal breaks the beam of light of the optical sensor.They will also be used to detect when the plunger of the solenoid has been engaged, blocking the light of the sensor
+
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[width=0.60\textwidth]{ADS Latex/images/optical.png}
+ \caption{Optical sensors will be used for two separate functions}
+\end{figure}
+
+\subsubsection{Assumptions}
+It is assumed that the sensor will be free of all dirt, debris or any other obstruction that could give false readings to the micro-controller.
+
+\subsubsection{Responsibilities}
+Providing the micro controller information on the stepper motor position or if the solenoids have been engaged.
+
+\subsubsection{Subsystem Interfaces}
+Each of the inputs and outputs for the subsystem are defined here.
+
+\begin {table}[H]
+\caption {Subsystem interfaces}
+\begin{center}
+    \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
+    \hline
+    ID & Description & Inputs & Outputs \\ \hline
+    \#xx & Connection to Motor & \pbox{3cm}{Motor Shaft} & \pbox{3cm}{Motor Position}  \\ \hline
+    \#xx & Connection to Motor & \pbox{3cm}{Solenoid Plunger} & \pbox{3cm}{Solenoid Engaged}  \\ \hline
+    \end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+\subsection{Stepper Motor}
+One stepper motor will utilized to drive a bevel gear that interacts with the turning mechanism. This stepper motor will interface with the micro-controller and will know its position based on a optical sensor mounted on.
+
+
+\begin{figure}[h!]
+	\centering
+ 	\includegraphics[width=0.60\textwidth]{ADS Latex/images/Stepper.png}
+ \caption{Stepper Motor.}
+\end{figure}
+
+\subsubsection{Assumptions}
+It is assumed that the optical sensor is operating correctly and relaying the appropriate information about position to the microcontroller
+
+\subsubsection{Responsibilities}
+Drive the bevel gear connected to the turning mechanism that allows the trucks to turn.
+
+\subsubsection{Subsystem Interfaces}
+Each of the inputs and outputs for the subsystem are defined here.
+
+\begin {table}[H]
+\caption {Subsystem interfaces}
+\begin{center}
+    \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
+    \hline
+    ID & Description & Inputs & Outputs \\ \hline
+    \#xx & Connection to Micro-Controller & \pbox{3cm}{Electrical Current} & \pbox{3cm}{N/A}  \\ \hline
+    \end{tabular}
+\end{center}
+\end{table}
