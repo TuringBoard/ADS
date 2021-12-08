@@ -27,14 +27,14 @@
 
 %%% Definitions
 \definecolor{accentcolor}{rgb}{0.0,0.0,0.5} 
-\newcommand{\teamname}{Runtime Terrors}
-\newcommand{\productname}{Turing Board}
+\newcommand{\teamname}{Team Name}
+\newcommand{\productname}{Product Name}
 \newcommand{\coursename}{CSE 4316: Senior Design I}
-\newcommand{\semester}{Fall 2021}
-\newcommand{\docname}{Architectural Design Specifications}
+\newcommand{\semester}{Fall 2015}
+\newcommand{\docname}{Architectural Design Specification}
 \newcommand{\department}{Department of Computer Science \& Engineering}
 \newcommand{\university}{The University of Texas at Arlington}
-\newcommand{\authors}{Sahaj Amatya \\ Sarker Nadir Afridi Azmi \\ Kendall Buchanan \\ Keaton Koehler \\ Happy Ndikumana \\ Lydia Sarver}
+\newcommand{\authors}{Alan Turing \\ Grace Hopper \\ John Von Neumann \\ Ada Lovelace \\ Charles Babbage}
 
 %%% Headers and footers
 \usepackage{fancyhdr}
@@ -70,7 +70,7 @@
 \vspace{0.5 in}
 \begin{figure}[h!]
 	\centering
-   	\includegraphics[width=0.40\textwidth]{images/turing_logo.png}
+   	\includegraphics[width=0.60\textwidth]{images/test_image}
 \end{figure}
 \vspace{0.5 in}
 {\centering \huge \color{accentcolor} \sc \textbf{\teamname \\ \productname} \par}
@@ -85,7 +85,11 @@
 
 %%% Revision History
 \begin{versionhistory}
-  	\vhEntry{0.1}{11.15.2021}{SA}{document creation}
+  	\vhEntry{0.1}{10.01.2015}{GH}{document creation}
+  	\vhEntry{0.2}{10.05.2015}{AT|GH}{complete draft}
+  	\vhEntry{0.3}{10.12.2015}{AT|GH}{release candidate 1}
+  	\vhEntry{1.0}{10.20.2015}{AT|GH|CB}{official release}
+  	\vhEntry{1.1}{10.31.2015}{AL}{added design review requests}
 \end{versionhistory}
 \newpage
 
@@ -109,23 +113,14 @@
 \section{Subsystem Definitions \& Data Flow}
 \input{tex/data_flow.tex}
 \newpage
-\section{Remote Control Layer Subsystems}
-\input{tex/RC_layer_subsystems.tex}
+\section{X Layer Subsystems}
+\input{tex/x_layer_subsystems.tex}
 \newpage
-\section{Main Controls Layer Subsystems}
-\input{tex/MC_layer_subsystems.tex}
+\section{Controls Software Layer}
+\input{tex/MC_layer_subsystems}
 \newpage
-\section{Wheels \& Turning Layer Subsystems}
-\input{tex/WT_layer_subsystems.tex}
-\newpage
-\section{Computer Vision Layer Subsystems}
-\input{tex/CV_layer_subsystems.tex}
-\newpage
-\section{HMI Layer Subsystems}
-\input{tex/HMI_layer_subsystems.tex}
-\newpage
-\section{Power Layer Subsystems}
-\input{tex/P_layer_subsystems.tex}
+\section{Power Delivery Layer}
+\input{tex/P_layer_subsystems}
 \newpage
 
 %%% References

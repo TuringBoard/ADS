@@ -1,9 +1,9 @@
-The Turing Board consists of six architectural layers.
+This section should describe the overall structure of your software system. Think of it as the strategy for how you will build the system. An architectural "layer" is the top-level logical view, or an abstraction, of your design. Layers should be composed of related elements of similar capabilities, and should be highly independent of other layers, but should have very clearly defined interfaces and interactions with other layers. Each layer should be identified individually and should be unique as to its function and purpose within the system. This section should also contain the high-level block diagram of the layers, as shown in the example below, as well as detailed descriptions of the functions of each layer.
 
 \begin{figure}[h!]
 	\centering
- 	\includegraphics[width=0.60\textwidth]{images/Introdcution_Layers.png}
- \caption{A simple architectural layer diagram of the Turing Board}
+ 	\includegraphics[width=0.60\textwidth]{images/layers}
+ \caption{A simple architectural layer diagram}
 \end{figure}
 
 \subsection{Computer Vision Layer}
@@ -24,3 +24,4 @@ This layer contains all of the hardware parts of the Turing Board that interacts
 
 \subsection{Wheels \& Turning Layer}
 This layer contains the components needed to cause the board to move and turn. It contains the ESC, brushless motors, stepper motors, optical sensors for the stepper motors, solenoids, optical sensors for the solenoids, the micro-controller, and the turning mechanism. The ESC will control the speed at which the brushless motors inside of the wheels turn as determined by signals sent from the Main Controls layer. The stepper motor will turn the turning mechanism a certain amount of degrees not exceeding 30-45 in either direction as determined by the Main Controls layer. The optical sensor for the stepper motor will track how many degrees the turning mechanism has been turned and send this data to the Main Controls layer. The solenoids will be responsible for locking the turning mechanism in place when it is in Electric mode. The optical sensors for the solenoids will determine if the solenoids are properly locked in place or not and transmit this data to the Main Controls layer. The micro-controller will receive data from the Main Controls layer and use that to output the necessary signals to the motors. 
+
