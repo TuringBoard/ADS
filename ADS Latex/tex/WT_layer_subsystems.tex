@@ -1,13 +1,7 @@
-This layer is responsible for the overall propulsion of the Turing Board. An Electronic Speed Controller (ESC) will be used to regulate the speed of the motor, reverse direction of the motor, and provide regenerative braking. While in autonomous mode the longboard is not capable of using weight to compress the bushing that turn the board. A mechanism is needed that will sit between the trucks and the board that will allow the front truck to rotate independently. This mechanism will be held in place by two solenoids acting as locking pins. A stepper motor using an optical sensor for positioning will interact with gears on the mechanism to rotate it to the desired angle.
-
-
-
-
-
+This layer is responsible for the overall propulsion of the Turing Board. An Electronic Speed Controller (ESC) will be used to regulate the speed of the motors, reverse direction of the motors, and provide regenerative braking. While in autonomous mode the longboard is not capable of using weight to compress the bushing that turn the board. A mechanism is needed that will sit between the trucks and the board that will allow the front truck to rotate independently. This mechanism will be held in place by two solenoids acting as locking pins. A stepper motor using an optical sensor for positioning will interact with gears on the mechanism to rotate it to the desired angle.
 
 \subsection{Electronic Speed Controller}
-The electronic speed controller is an electronics circuit that controls and regulates the speed of the motor. The ESC receives desired speed commands from the Jetson TX2 using the CAN bus. Two brushless DC motors, which are embedded into the wheels of the longboard, provide feedback concerning the wheels' direction back to the ESC using hall effect sensors. Using information from both of these systems, the ESC is able to provide current to the motors in order to drive a load at a set speed.
-
+The Electronic Speed Controller (ESC) is an electronic circuit that controls and regulates the speed of the motors. The ESC receives desired speed commands from the Jetson TX2 using the CAN bus. Two brushless DC motors, which are embedded into the wheels of the longboard, provide feedback concerning the wheels' direction back to the ESC using hall effect sensors. Using information from both of these systems, the ESC is able to provide current to the motors in order to drive a load at a set speed.
 
 \begin{figure}[h!]
 	\centering
@@ -19,36 +13,27 @@ The electronic speed controller is an electronics circuit that controls and regu
 It is assumed that this layer is only called when the board is in use. A speed command must be sent by either the user or the autonomous software.
 
 \subsubsection{Responsibilities}
-The ESC is responsible for driving the motor at a constant speed determined by the user. It is also responsible for reversing the direction of the motors to move the longboard backwards if desired. When the brake is applied, the ESC uses its circuitry to redirect the rotational energy of the wheel and recharge the battery powering the longboard.
+The ESC is responsible for driving the motors at a constant speed determined by the user. It is also responsible for reversing the direction of the motors to move the longboard backwards if desired. When the brake is applied, the ESC uses its circuitry to redirect the rotational energy of the wheel and recharge the battery powering the longboard.
 
 \subsubsection{Subsystem Interfaces}
 Each of the inputs and outputs for the subsystem are defined here.
 
 \begin {table}[H]
-\caption {Subsystem interfaces}
+\caption {ESC interfaces}
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & CAN Bus to Jetson & \pbox{3cm}{Desired Speed} & \pbox{3cm}{Motor RPM}  \\ \hline
-    \#xx & Direct Connection to Motor & \pbox{3cm}{Hall Effect Sensor} & \pbox{3cm}{Current to
+    \#9 & Power & \pbox{3cm}{Power} & \pbox{3cm}{N/A}  \\ \hline
+    \#13 & CAN Bus to Jetson & \pbox{3cm}{Desired Speed} & \pbox{3cm}{Motor RPM}  \\ \hline
+    \#26 & Direct Connection to Motor & \pbox{3cm}{Hall Effect Sensor} & \pbox{3cm}{Current to
     Motor}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
 
-
-
-
-
-
-
-
-
-
 \subsection{Brushless DC Motor}
 There are two brushless DC motors embedded into the wheels of the longboard. Each motor has three hall effect sensors that allow the speed controller to know how fast the wheels are moving.
-
 
 \begin{figure}[h!]
 	\centering
@@ -66,31 +51,24 @@ Rotate when current is applied to the three phases.
 Each of the inputs and outputs for the subsystem are defined here.
 
 \begin {table}[H]
-\caption {Subsystem interfaces}
+\caption {Brushless Dc Motor interfaces}
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & Connection to Motor & \pbox{3cm}{Electrical Current} & \pbox{3cm}{Motor Position}  \\ \hline
+    \#10 & Power & \pbox{3cm}{Power} & \pbox{3cm}{N/A}  \\ \hline
+    \#26 & Connection to Motor & \pbox{3cm}{Electrical Current} & \pbox{3cm}{Motor Position}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
 
-
-
-
-
-
-
-
-\subsection{Micro Controller}
+\subsection{Microcontroller}
 The micro-controller will handle the majority of the lower hardware functions such as sensors, solenoids, stepper motor, and PWM control. It will interface with the Jetson TX2.
-
 
 \begin{figure}[h!]
 	\centering
  	\includegraphics[width=0.60\textwidth]{ADS Latex/images/Keaton/MicroC.png}
- \caption{Micro Controller}
+ \caption{Microcontroller}
 \end{figure}
 
 \subsubsection{Assumptions}
@@ -103,30 +81,26 @@ The micro-controller is responsible for direct control of the stepper motor, sol
 Each of the inputs and outputs for the subsystem are defined here.
 
 \begin {table}[H]
-\caption {Subsystem interfaces}
+\caption {Microcontroller interfaces}
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & Connection to Jetson & \pbox{3cm}{Instructions} & \pbox{3cm}{Status Update}  \\ \hline
-    \#xx & Optical Sensor & \pbox{3cm}{Motor Position} & \pbox{3cm}{N/A}  \\ \hline
-    \#xx & Optical Sensor & \pbox{3cm}{Solenoid Position} & \pbox{3cm}{N/A}  \\ \hline
+    \#8 & Power & \pbox{3cm}{Power} & \pbox{3cm}{N/A}  \\ \hline
+    \#14 & Connection to Jetson & \pbox{3cm}{Instructions} & \pbox{3cm}{Status Update}  \\ \hline
+    \#16 & Optical Sensor & \pbox{3cm}{Solenoid Position} & \pbox{3cm}{N/A}  \\ \hline    
+    \#27 & Optical Sensor & \pbox{3cm}{Motor Position} & \pbox{3cm}{N/A}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
 
-
-
-
-
 \subsection{Optical Sensors}
 Several optical sensors will be operating in the project. Stepper motors have no method for determining position, but by attaching a piece of metal to the motor we can determine the gear position when the rotating metal breaks the beam of light inside the optical sensor. They will also be used to detect when the plunger of the solenoid has been engaged, blocking the light of the sensor
-
 
 \begin{figure}[h!]
 	\centering
  	\includegraphics[width=0.60\textwidth]{ADS Latex/images/Keaton/optical.png}
- \caption{Optical sensors will be used for two separate functions}
+ \caption{Optical Sensors}
 \end{figure}
 
 \subsubsection{Assumptions}
@@ -139,23 +113,19 @@ Providing the micro-controller information on the stepper motor position or if t
 Each of the inputs and outputs for the subsystem are defined here.
 
 \begin {table}[H]
-\caption {Subsystem interfaces}
+\caption {Optical sensor interfaces}
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & Connection to Motor & \pbox{3cm}{Motor Shaft} & \pbox{3cm}{Motor Position}  \\ \hline
-    \#xx & Connection to Motor & \pbox{3cm}{Solenoid Plunger} & \pbox{3cm}{Solenoid Engaged}  \\ \hline
+    \#16 & Connection to Motor & \pbox{3cm}{Solenoid Plunger} & \pbox{3cm}{Solenoid Engaged}  \\ \hline
+    \#27 & Connection to Motor & \pbox{3cm}{Motor Shaft} & \pbox{3cm}{Motor Position}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
 
-
-
-
 \subsection{Stepper Motor}
 One stepper motor will be utilized to drive a bevel gear that interacts with the turning mechanism. This stepper motor will interface with the micro-controller and will know its position based on an optical sensor mounted on it.
-
 
 \begin{figure}[h!]
 	\centering
@@ -164,7 +134,7 @@ One stepper motor will be utilized to drive a bevel gear that interacts with the
 \end{figure}
 
 \subsubsection{Assumptions}
-It is assumed that the optical sensor is operating correctly and relaying the appropriate positional information to the micro-controller
+It is assumed that the optical sensor is operating correctly and relaying the appropriate positional information to the micro-controller.
 
 \subsubsection{Responsibilities}
 Drive the bevel gear connected to the turning mechanism which allows the trucks to turn.
@@ -173,26 +143,24 @@ Drive the bevel gear connected to the turning mechanism which allows the trucks 
 Each of the inputs and outputs for the subsystem are defined here.
 
 \begin {table}[H]
-\caption {Subsystem interfaces}
+\caption {Stepper motor interfaces}
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & Connection to Micro-Controller & \pbox{3cm}{Electrical Current} & \pbox{3cm}{N/A}  \\ \hline
+    \#15 & Connection to Micro-Controller & \pbox{3cm}{Electrical Current} & \pbox{3cm}{N/A}  \\ \hline
+    \#27 & Connection to Optical Sensor & \pbox{3cm}{N/A} & \pbox{3cm}{Motor Position}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
 
-
-
 \subsection{Solenoid}
 A minimum of two solenoids will be utilized as locking pins on the turning mechanism. When needing to turn while the board is in autonomous mode, the code will engage the solenoids to pull them out of the turning mechanism housing. The solenoids will remain engaged while the stepper motor is operational. When turning is complete, the solenoids will be discharged to allow them to return to their position inside the turning mechanism.
-
 
 \begin{figure}[h!]
 	\centering
  	\includegraphics[width=0.60\textwidth]{ADS Latex/images/Keaton/Solenoid.png}
- \caption{Two solenoids will act as holding pins for the turning mechanism}
+ \caption{Solenoid}
 \end{figure}
 
 \subsubsection{Assumptions}
@@ -205,12 +173,13 @@ Insert plunger into the turning mechanism when it is at 0 degrees. Prevent the f
 Each of the inputs and outputs for the subsystem are defined here. 
 
 \begin {table}[H]
-\caption {Subsystem interfaces} 
+\caption {Solenoid interfaces} 
 \begin{center}
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    \#xx & Connection to Micro-Controller & \pbox{3cm}{Current} & \pbox{3cm}{N/A}  \\ \hline
+    \#16 & Connection to Optical Sensor & \pbox{3cm}{N/A} & \pbox{3cm}{Solenoid Engaged}  \\ \hline
+    \#17 & Connection to Micro-Controller & \pbox{3cm}{Current} & \pbox{3cm}{N/A}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}

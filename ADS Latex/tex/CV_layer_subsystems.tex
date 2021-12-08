@@ -24,7 +24,7 @@ Each of the inputs and outputs for the subsystem are defined here.
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    1 & RGB Imagery & \pbox{3cm}{RGB Frame} & \pbox{3cm}{\phantom{Boo!}\\ Position of target object(s)\\}  \\ \hline
+    \#4,25 & RGB Imagery & \pbox{3cm}{RGB Frame} & \pbox{3cm}{\phantom{Boo!}\\ Position of target object(s)\\}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
@@ -39,10 +39,10 @@ Stereo and Infrared Imagery of the front of the board is used as input in making
 \end{figure}
 
 \subsubsection{Assumptions}
-This layer is triggered by the user via the native iOS/Android application. It is assumed that the layer is being called upon in terrain with sufficient lighting conditions so that the RGB Stereo cameras are able to produces images of good quality. For the \textit{Follow Me} feature, it is assumed that the user has their anklet put on and proceeds to start with the anklet within the frame of the cameras. 
+This layer is triggered by the user via the native iOS/Android application. It is assumed that the layer is being called upon in terrain with sufficient lighting conditions so that the RGB Stereo cameras are able to produces images of good quality. For the \textit{Follow Me} feature, it is assumed that the user has their anklet put on and proceeds to start with the anklet within the frame of the camera. 
 
 \subsubsection{Responsibilities}
-Stereo and Infrared imagery is responsible for powering the \textit{Follow Along} and the \textit{Summon} features. For the \textit{Follow Along} feature, this subsystem calculates the position of the user in 1D space along the longitudinal axis to determine whether to move forward or stay put. For the \textit{Summon} feature, this subsystem is responsible for helping identify how far objects detected by the RGB module are. 
+Stereo and Infrared imagery is responsible for powering the \textit{Follow Along} and the \textit{Summon} features. For the \textit{Follow Along} feature, this subsystem calculates the position of the user in 1D space along the longitudinal axis to determine whether to move forward or to stay put. For the \textit{Summon} feature, this subsystem is responsible for helping identify how far objects detected by the RGB module are. 
 
 \subsubsection{Subsystem Interfaces}
 Each of the inputs and outputs for the subsystem are defined here.
@@ -53,7 +53,7 @@ Each of the inputs and outputs for the subsystem are defined here.
     \begin{tabular}{ | p{1cm} | p{6cm} | p{3cm} | p{3cm} |}
     \hline
     ID & Description & Inputs & Outputs \\ \hline
-    2 & Depth Imagery & \pbox{3cm}{Depth Frame \\ \\ Position of target object(s)} & \pbox{3cm}{\phantom{Boo!}\\ Optimized distance of target object(s) from camera\\ \\True position of target object(s) in 2D space\\}  \\ \hline
+    \#5,24 & Depth Imagery & \pbox{3cm}{Depth Frame \\ \\ Position of target object(s)} & \pbox{3cm}{\phantom{Boo!}\\ Optimized distance of target object(s) from camera\\ \\True position of target object(s) in 2D space\\}  \\ \hline
     \end{tabular}
 \end{center}
 \end{table}
